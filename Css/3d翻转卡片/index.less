@@ -1,0 +1,100 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    height: 100vh;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background: linear-gradient(45deg,#d8f2f3 0%,#ebf9f9 100%);
+    position: relative;
+    .center,.front-face,.contents,.back-face{
+        position: absolute;
+    }
+    .center{
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        height: 400px;
+        width: 290px;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+        .front-face,.back-face{
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('./bg.jpg') no-repeat center center;
+            background-size: cover;
+            border-radius: 10px;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(.4,.2,.2,1);
+            
+        }
+        .back-face{
+            background: linear-gradient(45deg,#043348 0%,#032535 100%);
+            transform: rotateY(180deg);
+        }
+        .contents{
+            left: 0;
+            top: 50%;
+            width: 100%;
+            perspective: 100px;
+            transform: translate(0,-50%,60px) scale(0.94);
+            &.front{
+                p{
+                    color: white;
+                    font-size: 36px;
+                    margin-bottom: 15px;
+                    &::after{
+                        content: '';
+                        display: block;
+                        left: 0;
+                        right: 0;
+                        height: 2px;
+                        width: 100px;
+                        background: white;
+                        margin: 10px auto 0;
+                    }
+                }
+                span{
+                    color: white;
+                    font-size: 24px;
+                }
+            }
+            &.back{
+                color: white;
+                h2{
+                    font-size: 32px;
+                    padding-bottom: 5px;
+                }
+                span{
+                    font-size: 24px;
+                }
+                .icons{
+                    margin: 10px 0;
+                    .fab{
+                        color: #042f4b;
+                        font-variant-alternates: 20px;
+                        height: 40px;
+                        width: 40px;
+                        background: white;
+                        border-radius: 50%;
+                        line-height: 40px;
+                        margin: 0 5px;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+        &:hover{
+            .back-face{
+                transform:rotateY(0deg);
+            }
+            .front-face{
+                transform: rotateY(-180deg);
+            }
+        }
+    }
+}
