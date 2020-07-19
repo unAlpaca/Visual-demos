@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>抽奖</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="move-part">
+        <ul class="box-list">
+          <li
+            class="box"
+            v-for="(member,index) in afterSort"
+            :key="index"
+            :key="index"
+            :style="{height:100 + (member.id+1)*40 + 'px'}"
+          >
+            <span>{{member.name}}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="right-part">
+        <ul class="member-list">
+          <li v-for="(member,index) in beforeSort" :key="index">
+            <span>{{member.name}}</span>
+            <span>{{member.id}}</span>
+          </li>
+        </ul>
+        <div class="btn" @click="randomSort">掷色子</div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let app = new Vue({
+      el: "#app",
+      data: {
+        message: "hhh",
+        members: [
+          ["凌聪", "周圣明", "符杰", "刘佳铭"],
+          ["林伟红", "李若谷", "石剑敏"],
+          ["李珊", "陈思敏"],
+          ["周立群"],
+        ],
+        trigger: 0,
+        beforeSort: [
+          // {name:"凌聪",id:0},
+          // {name:"周圣明",id:1},
+          // {name:"符杰",id:2},
+          // {name:"刘佳铭",id:3},
+          // {name:"林伟红",id:4},
+          // {name:"李若谷",id:5},
+          // {name:"石剑敏",id:6},
+          // {name:"李珊",id:7},
+          // {name:"陈思敏",id:8},
+          // {name:"周立群",id:9}
+        ],
+        afterSort: [
+          // {name:"凌聪",id:0},
+          // {name:"周圣明",id:1},
+          // {name:"符杰",id:2},
+          // {name:"刘佳铭",id:3},
+          // {name:"林伟红",id:4},
+          // {name:"李若谷",id:5},
+          // {name:"石剑敏",id:6},
+          // {name:"李珊",id:7},
+          // {name:"陈思敏",id:8},
+          // {name:"周立群",id:9}
+        ],
+      },
+      mounted() {
+        this.members.flat().forEach((name, id) => {
+          this.beforeSort.push({ name, id });
+          this.afterSort.push({ name, id });
+        });
+      },
+      methods: {
+        //生成长度为n的数字数组
+        Arr(n) {
+          let arr = [];
+          let i = 0;
+          while (i < n) {
+            arr.push(i++);
+          }
+          return arr;
+        },
+        //随机排序
+        randomSort() {
+          let random = [];
+          let len = this.beforeSort.length;
+          let arr = this.Arr(len);
+          for (var i = 0; i < len; i++) {
+            var index = Math.floor(Math.random() * (len - i));
+            random.push(arr[index]);
+            arr.splice(index, 1);
+          }
+
+          this.beforeSort.forEach((item, index) => {
+            item.id = random[index];
+          });
+          this.afterSort.forEach((item, index) => {
+            item.id = random[index];
+          });
+          this.trigger++;
+        },
+        //冒泡排序
+        bubbleSort() {
+          let arr = this.afterSort;
+          console.log(arr);
+          for (let i = 0; i < arr.length - 1; i++) {
+            if (arr[i].id > arr[i + 1].id) {
+              setTimeout(() => {
+                console.log();
+                let temp;
+                temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+              }, i * 1000);
+            }
+          }
+        },
+      },
+      watch: {
+        trigger() {
+          this.bubbleSort();
+        },
+      },
+    });
+  </script>
+</html>
